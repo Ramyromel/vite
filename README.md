@@ -34,6 +34,43 @@ In addition, Vite is highly extensible via its [Plugin API](https://vite.dev/gui
 
 [Read the Docs to Learn More](https://vite.dev).
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Table of Contents](#table-of-contents)
+- [Examples and Use Cases](#examples-and-use-cases)
+- [Cross-References](#cross-references)
+- [Formatting and Organization](#formatting-and-organization)
+- [Packages](#packages)
+- [Contribution](#contribution)
+- [License](#license)
+- [Sponsors](#sponsors)
+
+## Examples and Use Cases
+
+Vite can be used in various scenarios, including but not limited to:
+
+- Developing single-page applications (SPAs) with frameworks like Vue, React, and Svelte.
+- Building multi-page applications (MPAs) with multiple entry points.
+- Creating browser-oriented libraries with optimized builds.
+- Developing static sites with fast development server and optimized production builds.
+- Building server-side rendered (SSR) applications with frameworks like Nuxt.js and Next.js.
+
+## Cross-References
+
+For more detailed information on specific topics, refer to the following sections of the documentation:
+
+- [Configuring Vite](https://vite.dev/config/)
+- [Features](https://vite.dev/guide/features.html)
+- [Build Options](https://vite.dev/config/build-options.html)
+- [Server Options](https://vite.dev/config/server-options.html)
+- [Plugin API](https://vite.dev/guide/api-plugin.html)
+- [JavaScript API](https://vite.dev/guide/api-javascript.html)
+
+## Formatting and Organization
+
+The documentation is organized into different sections to make it more readable and user-friendly. Each section provides detailed information on specific topics, along with examples and use cases to help users understand and utilize Vite effectively.
+
 ## Packages
 
 | Package                                         | Version (click for changelogs)                                                                                                    |

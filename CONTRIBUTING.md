@@ -309,3 +309,141 @@ If you have publish access, the steps below explain how to cut a release for a p
 ## Docs Translation Contribution
 
 To add a new language to the Vite docs, see [`vite-docs-template`](https://github.com/tony19/vite-docs-template/blob/main/.github/CONTRIBUTING.md).
+
+## Guidelines for Writing Tests for New Code
+
+When writing tests for new code, follow these guidelines to ensure comprehensive and effective test coverage:
+
+1. **Identify Test Scenarios**: Identify all possible scenarios and edge cases that need to be tested for the new code. Consider different inputs, outputs, and potential error conditions.
+
+2. **Write Unit Tests**: Write unit tests to verify the functionality of individual functions or modules. Ensure that each unit test covers a specific aspect of the code and includes both positive and negative test cases.
+
+3. **Write Integration Tests**: Write integration tests to verify the interaction between different modules or components. Ensure that the integration tests cover the end-to-end functionality of the new code.
+
+4. **Use Test Fixtures**: Use test fixtures to set up the necessary environment and data for the tests. This helps ensure consistency and reproducibility of the test results.
+
+5. **Mock External Dependencies**: Mock any external dependencies or services that the new code interacts with. This helps isolate the code being tested and ensures that the tests are not affected by external factors.
+
+6. **Run Tests Locally**: Before submitting your code, run all tests locally to ensure that they pass. Use the provided test scripts and tools to execute the tests and verify the results.
+
+## Examples of Good Test Cases
+
+Here are some examples of good test cases that demonstrate effective testing practices:
+
+### Example 1: Unit Test for a Function
+
+```js
+import { add } from './math';
+
+test('add function should return the sum of two numbers', () => {
+  expect(add(2, 3)).toBe(5);
+  expect(add(-1, 1)).toBe(0);
+  expect(add(0, 0)).toBe(0);
+});
+```
+
+### Example 2: Integration Test for a Component
+
+```js
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import MyComponent from './MyComponent';
+
+test('MyComponent should display the correct message when button is clicked', () => {
+  render(<MyComponent />);
+  const button = screen.getByRole('button', { name: /click me/i });
+  userEvent.click(button);
+  expect(screen.getByText(/button clicked/i)).toBeInTheDocument();
+});
+```
+
+## How to Run Tests Locally
+
+To run tests locally, follow these steps:
+
+1. **Install Dependencies**: Ensure that all dependencies are installed by running `pnpm install` in the project root directory.
+
+2. **Run Unit Tests**: Use the following command to run unit tests:
+
+   ```sh
+   pnpm run test-unit
+   ```
+
+3. **Run Integration Tests**: Use the following command to run integration tests:
+
+   ```sh
+   pnpm run test-serve
+   ```
+
+4. **Run Specific Tests**: To run specific tests, use the following command with a filter:
+
+   ```sh
+   pnpm run test-serve [match]
+   ```
+
+   Replace `[match]` with the name of the package or test file you want to run.
+
+## Guidelines for Writing Documentation for New Features
+
+When writing documentation for new features, follow these guidelines to ensure clear and comprehensive documentation:
+
+1. **Provide a Clear Overview**: Start with a clear overview of the new feature, explaining its purpose and how it benefits users.
+
+2. **Include Usage Examples**: Include usage examples that demonstrate how to use the new feature. Provide both basic and advanced examples to cover different use cases.
+
+3. **Explain Configuration Options**: If the new feature includes configuration options, explain each option in detail, including its purpose, default value, and possible values.
+
+4. **Add Cross-References**: Add cross-references to other relevant sections of the documentation to help users navigate and find related information easily.
+
+5. **Include Troubleshooting Tips**: Include troubleshooting tips for common issues that users may encounter when using the new feature. Provide solutions and workarounds for these issues.
+
+## Examples of Good Documentation
+
+Here are some examples of good documentation that demonstrate effective documentation practices:
+
+### Example 1: Overview of a New Feature
+
+```md
+## New Feature: Dark Mode
+
+The Dark Mode feature allows users to switch the application interface to a dark theme. This can help reduce eye strain and improve visibility in low-light environments.
+
+### Enabling Dark Mode
+
+To enable Dark Mode, follow these steps:
+
+1. Open the application settings.
+2. Navigate to the "Appearance" section.
+3. Toggle the "Dark Mode" switch to the "On" position.
+
+### Usage Example
+
+```js
+import { enableDarkMode } from './theme';
+
+enableDarkMode();
+```
+```
+
+### Example 2: Configuration Options
+
+```md
+## Configuration Options for Dark Mode
+
+The Dark Mode feature includes the following configuration options:
+
+- `theme`: Specifies the theme to use for Dark Mode. Possible values are `dark` and `light`. Default value is `dark`.
+
+- `autoSwitch`: Enables automatic switching between Dark Mode and Light Mode based on the system theme. Possible values are `true` and `false`. Default value is `false`.
+
+### Example Configuration
+
+```js
+import { configureDarkMode } from './theme';
+
+configureDarkMode({
+  theme: 'dark',
+  autoSwitch: true,
+});
+```
+```

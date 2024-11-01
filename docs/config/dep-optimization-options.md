@@ -12,6 +12,16 @@ By default, Vite will crawl all your `.html` files to detect dependencies that n
 
 If neither of these fit your needs, you can specify custom entries using this option - the value should be a [`tinyglobby` pattern](https://github.com/SuperchupuDev/tinyglobby) or array of patterns that are relative from Vite project root. This will overwrite default entries inference. Only `node_modules` and `build.outDir` folders will be ignored by default when `optimizeDeps.entries` is explicitly defined. If other folders need to be ignored, you can use an ignore pattern as part of the entries list, marked with an initial `!`. If you don't want to ignore `node_modules` and `build.outDir`, you can specify using literal string paths (without `tinyglobby` patterns) instead.
 
+**Example:**
+
+```js
+export default defineConfig({
+  optimizeDeps: {
+    entries: ['src/**/*.js', '!src/exclude/**'],
+  },
+})
+```
+
 ## optimizeDeps.exclude
 
 - **Type:** `string[]`
@@ -21,9 +31,7 @@ Dependencies to exclude from pre-bundling.
 :::warning CommonJS
 CommonJS dependencies should not be excluded from optimization. If an ESM dependency is excluded from optimization, but has a nested CommonJS dependency, the CommonJS dependency should be added to `optimizeDeps.include`. Example:
 
-```js twoslash
-import { defineConfig } from 'vite'
-// ---cut---
+```js
 export default defineConfig({
   optimizeDeps: {
     include: ['esm-dep > cjs-dep'],
@@ -33,6 +41,16 @@ export default defineConfig({
 
 :::
 
+**Example:**
+
+```js
+export default defineConfig({
+  optimizeDeps: {
+    exclude: ['some-dep'],
+  },
+})
+```
+
 ## optimizeDeps.include
 
 - **Type:** `string[]`
@@ -41,12 +59,20 @@ By default, linked packages not inside `node_modules` are not pre-bundled. Use t
 
 **Experimental:** If you're using a library with many deep imports, you can also specify a trailing glob pattern to pre-bundle all deep imports at once. This will avoid constantly pre-bundling whenever a new deep import is used. [Give Feedback](https://github.com/vitejs/vite/discussions/15833). For example:
 
-```js twoslash
-import { defineConfig } from 'vite'
-// ---cut---
+```js
 export default defineConfig({
   optimizeDeps: {
     include: ['my-lib/components/**/*.vue'],
+  },
+})
+```
+
+**Example:**
+
+```js
+export default defineConfig({
+  optimizeDeps: {
+    include: ['some-dep'],
   },
 })
 ```
@@ -72,11 +98,33 @@ Certain options are omitted since changing them would not be compatible with Vit
 - `external` is also omitted, use Vite's `optimizeDeps.exclude` option
 - `plugins` are merged with Vite's dep plugin
 
+**Example:**
+
+```js
+export default defineConfig({
+  optimizeDeps: {
+    esbuildOptions: {
+      minify: true,
+    },
+  },
+})
+```
+
 ## optimizeDeps.force
 
 - **Type:** `boolean`
 
 Set to `true` to force dependency pre-bundling, ignoring previously cached optimized dependencies.
+
+**Example:**
+
+```js
+export default defineConfig({
+  optimizeDeps: {
+    force: true,
+  },
+})
+```
 
 ## optimizeDeps.holdUntilCrawlEnd
 
@@ -85,6 +133,16 @@ Set to `true` to force dependency pre-bundling, ignoring previously cached optim
 - **Default:** `true`
 
 When enabled, it will hold the first optimized deps results until all static imports are crawled on cold start. This avoids the need for full-page reloads when new dependencies are discovered and they trigger the generation of new common chunks. If all dependencies are found by the scanner plus the explicitly defined ones in `include`, it is better to disable this option to let the browser process more requests in parallel.
+
+**Example:**
+
+```js
+export default defineConfig({
+  optimizeDeps: {
+    holdUntilCrawlEnd: false,
+  },
+})
+```
 
 ## optimizeDeps.disabled
 
@@ -101,9 +159,43 @@ To disable the optimizer completely, use `optimizeDeps.noDiscovery: true` to dis
 Optimizing dependencies during build time was an **experimental** feature. Projects trying out this strategy also removed `@rollup/plugin-commonjs` using `build.commonjsOptions: { include: [] }`. If you did so, a warning will guide you to re-enable it to support CJS only packages while bundling.
 :::
 
+**Example:**
+
+```js
+export default defineConfig({
+  optimizeDeps: {
+    disabled: true,
+  },
+})
+```
+
 ## optimizeDeps.needsInterop
 
 - **Experimental**
 - **Type:** `string[]`
 
 Forces ESM interop when importing these dependencies. Vite is able to properly detect when a dependency needs interop, so this option isn't generally needed. However, different combinations of dependencies could cause some of them to be prebundled differently. Adding these packages to `needsInterop` can speed up cold start by avoiding full-page reloads. You'll receive a warning if this is the case for one of your dependencies, suggesting to add the package name to this array in your config.
+
+**Example:**
+
+```js
+export default defineConfig({
+  optimizeDeps: {
+    needsInterop: ['some-dep'],
+  },
+})
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Dependencies Not Being Pre-Bundled**: Ensure that the dependencies are not excluded in `optimizeDeps.exclude` and are included in `optimizeDeps.include` if necessary.
+
+2. **CommonJS Dependencies Not Working**: CommonJS dependencies should not be excluded from optimization. If an ESM dependency is excluded from optimization but has a nested CommonJS dependency, the CommonJS dependency should be added to `optimizeDeps.include`.
+
+3. **Slow Cold Start**: If you experience a slow cold start, consider adding frequently used dependencies to `optimizeDeps.needsInterop` to speed up the process.
+
+### Further Assistance
+
+If you encounter any issues not covered in this section, please refer to the [Vite documentation](https://vitejs.dev) or seek help from the Vite community on [Discord](https://chat.vite.dev).

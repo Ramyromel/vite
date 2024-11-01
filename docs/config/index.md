@@ -4,6 +4,17 @@ title: Configuring Vite
 
 # Configuring Vite
 
+Vite is a next-generation frontend build tool that aims to provide a faster and leaner development experience for modern web projects. It consists of a dev server that provides rich feature enhancements over native ES modules, and a build command that bundles your code with Rollup, pre-configured to output optimized static assets for production.
+
+## Table of Contents
+
+- [Configuring Vite](#configuring-vite)
+  - [Table of Contents](#table-of-contents)
+  - [Config Intellisense](#config-intellisense)
+  - [Conditional Config](#conditional-config)
+  - [Async Config](#async-config)
+  - [Using Environment Variables in Config](#using-environment-variables-in-config)
+
 When running `vite` from the command line, Vite will automatically try to resolve a config file named `vite.config.js` inside [project root](/guide/#index-html-and-project-root) (other JS and TS extensions are also supported).
 
 The most basic config file looks like this:

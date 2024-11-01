@@ -184,3 +184,230 @@ jobs:
         run: |
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
           ./actionlint -color -shellcheck=""
+
+  security-check:
+    runs-on: ubuntu-latest
+    name: "Security Check"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Set node version to 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Run npm audit
+        run: pnpm audit
+
+  update-dependencies:
+    runs-on: ubuntu-latest
+    name: "Update Dependencies"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Set node version to 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Run Dependabot
+        uses: dependabot/dependabot-script@v1
+        with:
+          script: |
+            dependabot update
+
+  performance-test:
+    runs-on: ubuntu-latest
+    name: "Performance Test"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Set node version to 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Run performance tests
+        run: pnpm run test-performance
+
+  code-coverage:
+    runs-on: ubuntu-latest
+    name: "Code Coverage"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Set node version to 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Run tests with coverage
+        run: pnpm run test -- --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  accessibility-test:
+    runs-on: ubuntu-latest
+    name: "Accessibility Test"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Set node version to 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Run accessibility tests
+        run: pnpm run test-accessibility
+
+  preview-deploy:
+    runs-on: ubuntu-latest
+    name: "Deploy Preview"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Set node version to 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Deploy preview
+        run: pnpm run deploy-preview
+
+  end-to-end-test:
+    runs-on: ubuntu-latest
+    name: "End-to-End Test"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Set node version to 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Run end-to-end tests
+        run: pnpm run test-e2e
+
+  generate-docs:
+    runs-on: ubuntu-latest
+    name: "Generate Documentation"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Set node version to 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Generate documentation
+        run: pnpm run docs
+
+      - name: Publish documentation
+        run: pnpm run docs-publish
+
+  static-code-analysis:
+    runs-on: ubuntu-latest
+    name: "Static Code Analysis"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Set node version to 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Run static code analysis
+        run: pnpm run static-analysis
+
+  notify-build-status:
+    runs-on: ubuntu-latest
+    name: "Notify Build Status"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Set node version to 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Notify build status
+        run: pnpm run notify-status
