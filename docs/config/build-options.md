@@ -16,6 +16,16 @@ The transform is performed with esbuild and the value should be a valid [esbuild
 
 Note the build will fail if the code contains features that cannot be safely transpiled by esbuild. See [esbuild docs](https://esbuild.github.io/content-types/#javascript) for more details.
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    target: 'es2015',
+  },
+})
+```
+
 ## build.modulePreload
 
 - **Type:** `boolean | { polyfill?: boolean, resolveDependencies?: ResolveModulePreloadDependenciesFn }`
@@ -66,6 +76,18 @@ modulePreload: {
 
 The resolved dependency paths can be further modified using [`experimental.renderBuiltUrl`](../guide/build.md#advanced-base-options).
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    modulePreload: {
+      polyfill: false,
+    },
+  },
+})
+```
+
 ## build.polyfillModulePreload
 
 - **Type:** `boolean`
@@ -81,12 +103,32 @@ Whether to automatically inject a [module preload polyfill](https://guybedford.c
 
 Specify the output directory (relative to [project root](/guide/#index-html-and-project-root)).
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    outDir: 'build',
+  },
+})
+```
+
 ## build.assetsDir
 
 - **Type:** `string`
 - **Default:** `assets`
 
 Specify the directory to nest generated assets under (relative to `build.outDir`. This is not used in [Library Mode](/guide/build#library-mode)).
+
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    assetsDir: 'static',
+  },
+})
+```
 
 ## build.assetsInlineLimit
 
@@ -103,6 +145,16 @@ Git LFS placeholders are automatically excluded from inlining because they do no
 If you specify `build.lib`, `build.assetsInlineLimit` will be ignored and assets will always be inlined, regardless of file size or being a Git LFS placeholder.
 :::
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    assetsInlineLimit: 8192,
+  },
+})
+```
+
 ## build.cssCodeSplit
 
 - **Type:** `boolean`
@@ -116,6 +168,16 @@ If disabled, all CSS in the entire project will be extracted into a single CSS f
 If you specify `build.lib`, `build.cssCodeSplit` will be `false` as default.
 :::
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    cssCodeSplit: false,
+  },
+})
+```
+
 ## build.cssTarget
 
 - **Type:** `string | string[]`
@@ -127,12 +189,32 @@ It should only be used when you are targeting a non-mainstream browser.
 One example is Android WeChat WebView, which supports most modern JavaScript features but not the [`#RGBA` hexadecimal color notation in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb_colors).
 In this case, you need to set `build.cssTarget` to `chrome61` to prevent vite from transform `rgba()` colors into `#RGBA` hexadecimal notations.
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    cssTarget: 'chrome61',
+  },
+})
+```
+
 ## build.cssMinify
 
 - **Type:** `boolean | 'esbuild' | 'lightningcss'`
 - **Default:** the same as [`build.minify`](#build-minify) for client, `'esbuild'` for SSR
 
 This option allows users to override CSS minification specifically instead of defaulting to `build.minify`, so you can configure minification for JS and CSS separately. Vite uses `esbuild` by default to minify CSS. Set the option to `'lightningcss'` to use [Lightning CSS](https://lightningcss.dev/minification.html) instead. If selected, it can be configured using [`css.lightningcss`](./shared-options.md#css-lightningcss).
+
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    cssMinify: 'lightningcss',
+  },
+})
+```
 
 ## build.sourcemap
 
@@ -141,11 +223,36 @@ This option allows users to override CSS minification specifically instead of de
 
 Generate production source maps. If `true`, a separate sourcemap file will be created. If `'inline'`, the sourcemap will be appended to the resulting output file as a data URI. `'hidden'` works like `true` except that the corresponding sourcemap comments in the bundled files are suppressed.
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    sourcemap: true,
+  },
+})
+```
+
 ## build.rollupOptions
 
 - **Type:** [`RollupOptions`](https://rollupjs.org/configuration-options/)
 
 Directly customize the underlying Rollup bundle. This is the same as options that can be exported from a Rollup config file and will be merged with Vite's internal Rollup options. See [Rollup options docs](https://rollupjs.org/configuration-options/) for more details.
+
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        nested: path.resolve(__dirname, 'nested/index.html')
+      }
+    }
+  }
+})
+```
 
 ## build.commonjsOptions
 
@@ -153,12 +260,36 @@ Directly customize the underlying Rollup bundle. This is the same as options tha
 
 Options to pass on to [@rollup/plugin-commonjs](https://github.com/rollup/plugins/tree/master/packages/commonjs).
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    commonjsOptions: {
+      include: /node_modules/
+    }
+  }
+})
+```
+
 ## build.dynamicImportVarsOptions
 
 - **Type:** [`RollupDynamicImportVarsOptions`](https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars#options)
 - **Related:** [Dynamic Import](/guide/features#dynamic-import)
 
 Options to pass on to [@rollup/plugin-dynamic-import-vars](https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars).
+
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    dynamicImportVarsOptions: {
+      include: /src/
+    }
+  }
+})
+```
 
 ## build.lib
 
@@ -185,6 +316,21 @@ export default defineConfig({
 })
 ```
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    lib: {
+      entry: 'src/main.js',
+      name: 'MyLib',
+      formats: ['es', 'umd'],
+      fileName: (format) => `my-lib.${format}.js`
+    }
+  }
+})
+```
+
 ## build.manifest
 
 - **Type:** `boolean | string`
@@ -192,6 +338,16 @@ export default defineConfig({
 - **Related:** [Backend Integration](/guide/backend-integration)
 
 When set to `true`, the build will also generate a `.vite/manifest.json` file that contains a mapping of non-hashed asset filenames to their hashed versions, which can then be used by a server framework to render the correct asset links. When the value is a string, it will be used as the manifest file name.
+
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    manifest: true,
+  },
+})
+```
 
 ## build.ssrManifest
 
@@ -201,6 +357,16 @@ When set to `true`, the build will also generate a `.vite/manifest.json` file th
 
 When set to `true`, the build will also generate an SSR manifest for determining style links and asset preload directives in production. When the value is a string, it will be used as the manifest file name.
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    ssrManifest: true,
+  },
+})
+```
+
 ## build.ssr
 
 - **Type:** `boolean | string`
@@ -209,6 +375,16 @@ When set to `true`, the build will also generate an SSR manifest for determining
 
 Produce SSR-oriented build. The value can be a string to directly specify the SSR entry, or `true`, which requires specifying the SSR entry via `rollupOptions.input`.
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    ssr: 'src/entry-server.js',
+  },
+})
+```
+
 ## build.emitAssets
 
 - **Type:** `boolean`
@@ -216,12 +392,32 @@ Produce SSR-oriented build. The value can be a string to directly specify the SS
 
 During non-client builds, static assets aren't emitted as it is assumed they would be emitted as part of the client build. This option allows frameworks to force emitting them in other environments build. It is responsibility of the framework to merge the assets with a post build step.
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    emitAssets: true,
+  },
+})
+```
+
 ## build.ssrEmitAssets
 
 - **Type:** `boolean`
 - **Default:** `false`
 
 During the SSR build, static assets aren't emitted as it is assumed they would be emitted as part of the client build. This option allows frameworks to force emitting them in both the client and SSR build. It is responsibility of the framework to merge the assets with a post build step. This option will be replaced by `build.emitAssets` once Environment API is stable.
+
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    ssrEmitAssets: true,
+  },
+})
+```
 
 ## build.minify
 
@@ -238,6 +434,16 @@ Terser must be installed when it is set to `'terser'`.
 npm add -D terser
 ```
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    minify: 'terser',
+  },
+})
+```
+
 ## build.terserOptions
 
 - **Type:** `TerserOptions`
@@ -246,12 +452,36 @@ Additional [minify options](https://terser.org/docs/api-reference#minify-options
 
 In addition, you can also pass a `maxWorkers: number` option to specify the max number of workers to spawn. Defaults to the number of CPUs minus 1.
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    terserOptions: {
+      compress: {
+        drop_console: true,
+      },
+    },
+  },
+})
+```
+
 ## build.write
 
 - **Type:** `boolean`
 - **Default:** `true`
 
 Set to `false` to disable writing the bundle to disk. This is mostly used in [programmatic `build()` calls](/guide/api-javascript#build) where further post processing of the bundle is needed before writing to disk.
+
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    write: false,
+  },
+})
+```
 
 ## build.emptyOutDir
 
@@ -260,12 +490,32 @@ Set to `false` to disable writing the bundle to disk. This is mostly used in [pr
 
 By default, Vite will empty the `outDir` on build if it is inside project root. It will emit a warning if `outDir` is outside of root to avoid accidentally removing important files. You can explicitly set this option to suppress the warning. This is also available via command line as `--emptyOutDir`.
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    emptyOutDir: false,
+  },
+})
+```
+
 ## build.copyPublicDir
 
 - **Type:** `boolean`
 - **Default:** `true`
 
 By default, Vite will copy files from the `publicDir` into the `outDir` on build. Set to `false` to disable this.
+
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    copyPublicDir: false,
+  },
+})
+```
 
 ## build.reportCompressedSize
 
@@ -274,12 +524,32 @@ By default, Vite will copy files from the `publicDir` into the `outDir` on build
 
 Enable/disable gzip-compressed size reporting. Compressing large output files can be slow, so disabling this may increase build performance for large projects.
 
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    reportCompressedSize: false,
+  },
+})
+```
+
 ## build.chunkSizeWarningLimit
 
 - **Type:** `number`
 - **Default:** `500`
 
 Limit for chunk size warnings (in kB). It is compared against the uncompressed chunk size as the [JavaScript size itself is related to the execution time](https://v8.dev/blog/cost-of-javascript-2019).
+
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    chunkSizeWarningLimit: 1000,
+  },
+})
+```
 
 ## build.watch
 
@@ -294,3 +564,29 @@ There are cases that file system watching does not work with WSL2.
 See [`server.watch`](./server-options.md#server-watch) for more details.
 
 :::
+
+**Example:**
+
+```js
+export default defineConfig({
+  build: {
+    watch: {},
+  },
+})
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Build Fails with Esbuild Errors**: Ensure that your code does not contain features that cannot be safely transpiled by esbuild. Refer to the [esbuild documentation](https://esbuild.github.io/content-types/#javascript) for more details.
+
+2. **CSS Not Being Split**: If you have set `build.cssCodeSplit` to `false`, all CSS in the project will be extracted into a single CSS file. Ensure that this option is set to `true` if you want CSS code splitting.
+
+3. **Assets Not Being Inlined**: If you have specified `build.lib`, `build.assetsInlineLimit` will be ignored, and assets will always be inlined regardless of file size or being a Git LFS placeholder.
+
+4. **Module Preload Polyfill Not Working**: Ensure that you have manually imported the polyfill in your custom entry if the build is configured to use a non-HTML custom entry via `build.rollupOptions.input`.
+
+### Further Assistance
+
+If you encounter any issues not covered in this section, please refer to the [Vite documentation](https://vitejs.dev) or seek help from the Vite community on [Discord](https://chat.vite.dev).

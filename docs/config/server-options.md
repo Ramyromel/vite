@@ -20,7 +20,7 @@ The first case is when `localhost` is used. Node.js under v17 reorders the resul
 
 You can set [`dns.setDefaultResultOrder('verbatim')`](https://nodejs.org/api/dns.html#dns_dns_setdefaultresultorder_order) to disable the reordering behavior. Vite will then print the address as `localhost`.
 
-```js twoslash [vite.config.js]
+```js
 import { defineConfig } from 'vite'
 import dns from 'node:dns'
 
@@ -42,6 +42,16 @@ See [the WSL document](https://learn.microsoft.com/en-us/windows/wsl/networking#
 
 :::
 
+**Example:**
+
+```js
+export default defineConfig({
+  server: {
+    host: '0.0.0.0',
+  },
+})
+```
+
 ## server.port
 
 - **Type:** `number`
@@ -49,11 +59,31 @@ See [the WSL document](https://learn.microsoft.com/en-us/windows/wsl/networking#
 
 Specify server port. Note if the port is already being used, Vite will automatically try the next available port so this may not be the actual port the server ends up listening on.
 
+**Example:**
+
+```js
+export default defineConfig({
+  server: {
+    port: 8080,
+  },
+})
+```
+
 ## server.strictPort
 
 - **Type:** `boolean`
 
 Set to `true` to exit if port is already in use, instead of automatically trying the next available port.
+
+**Example:**
+
+```js
+export default defineConfig({
+  server: {
+    strictPort: true,
+  },
+})
+```
 
 ## server.https
 
@@ -64,6 +94,19 @@ Enable TLS + HTTP/2. Note this downgrades to TLS only when the [`server.proxy` o
 The value can also be an [options object](https://nodejs.org/api/https.html#https_https_createserver_options_requestlistener) passed to `https.createServer()`.
 
 A valid certificate is needed. For a basic setup, you can add [@vitejs/plugin-basic-ssl](https://github.com/vitejs/vite-plugin-basic-ssl) to the project plugins, which will automatically create and cache a self-signed certificate. But we recommend creating your own certificates.
+
+**Example:**
+
+```js
+export default defineConfig({
+  server: {
+    https: {
+      key: fs.readFileSync('./path/to/server-key.pem'),
+      cert: fs.readFileSync('./path/to/server-cert.pem'),
+    },
+  },
+})
+```
 
 ## server.open
 
@@ -141,11 +184,36 @@ export default defineConfig({
 
 Configure CORS for the dev server. This is enabled by default and allows any origin. Pass an [options object](https://github.com/expressjs/cors#configuration-options) to fine tune the behavior or `false` to disable.
 
+**Example:**
+
+```js
+export default defineConfig({
+  server: {
+    cors: {
+      origin: 'https://example.com',
+      methods: ['GET', 'POST'],
+    },
+  },
+})
+```
+
 ## server.headers
 
 - **Type:** `OutgoingHttpHeaders`
 
 Specify server response headers.
+
+**Example:**
+
+```js
+export default defineConfig({
+  server: {
+    headers: {
+      'X-Custom-Header': 'value',
+    },
+  },
+})
+```
 
 ## server.hmr
 
@@ -178,6 +246,22 @@ The error that appears in the Browser when the fallback happens can be ignored. 
 - set `server.hmr.port` to a different value from [`server.port`](#server-port)
 
 :::
+
+**Example:**
+
+```js
+export default defineConfig({
+  server: {
+    hmr: {
+      protocol: 'wss',
+      host: 'localhost',
+      port: 443,
+      clientPort: 443,
+      overlay: false,
+    },
+  },
+})
+```
 
 ## server.warmup
 
@@ -230,6 +314,19 @@ To fix it, you could either:
 
 :::
 
+**Example:**
+
+```js
+export default defineConfig({
+  server: {
+    watch: {
+      ignored: ['**/node_modules/**', '**/.git/**'],
+      usePolling: true,
+    },
+  },
+})
+```
+
 ## server.middlewareMode
 
 - **Type:** `boolean`
@@ -241,7 +338,7 @@ Create Vite server in middleware mode.
 
 - **Example:**
 
-```js twoslash
+```js
 import express from 'express'
 import { createServer as createViteServer } from 'vite'
 
@@ -273,6 +370,18 @@ createServer()
 - **Default:** `true` (enabled by default since Vite 2.7)
 
 Restrict serving files outside of workspace root.
+
+**Example:**
+
+```js
+export default defineConfig({
+  server: {
+    fs: {
+      strict: true,
+    },
+  },
+})
+```
 
 ## server.fs.allow
 
@@ -329,11 +438,25 @@ export default defineConfig({
 
 Blocklist for sensitive files being restricted to be served by Vite dev server. This will have higher priority than [`server.fs.allow`](#server-fs-allow). [picomatch patterns](https://github.com/micromatch/picomatch#globbing-features) are supported.
 
+**Example:**
+
+```js
+export default defineConfig({
+  server: {
+    fs: {
+      deny: ['.env', '.env.*', '*.{crt,pem}', '**/.git/**'],
+    },
+  },
+})
+```
+
 ## server.origin
 
 - **Type:** `string`
 
 Defines the origin of the generated asset URLs during development.
+
+**Example:**
 
 ```js
 export default defineConfig({
@@ -369,3 +492,17 @@ export default defineConfig({
 ::: tip Note
 [`server.sourcemapIgnoreList`](#server-sourcemapignorelist) and [`build.rollupOptions.output.sourcemapIgnoreList`](https://rollupjs.org/configuration-options/#output-sourcemapignorelist) need to be set independently. `server.sourcemapIgnoreList` is a server only config and doesn't get its default value from the defined rollup options.
 :::
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Server Not Starting**: Ensure that the specified port is not already in use. If the port is in use, Vite will automatically try the next available port unless `server.strictPort` is set to `true`.
+
+2. **HTTPS Not Working**: Ensure that you have provided valid certificate files for the `server.https` option. If you are using a self-signed certificate, you may need to add it to your browser's trusted certificates.
+
+3. **CORS Issues**: If you encounter CORS issues, ensure that the `server.cors` option is configured correctly. You can pass an options object to fine-tune the behavior or set it to `false` to disable CORS.
+
+### Further Assistance
+
+If you encounter any issues not covered in this section, please refer to the [Vite documentation](https://vitejs.dev) or seek help from the Vite community on [Discord](https://chat.vite.dev).
