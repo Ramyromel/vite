@@ -16,6 +16,21 @@ The transform is performed with esbuild and the value should be a valid [esbuild
 
 Note the build will fail if the code contains features that cannot be safely transpiled by esbuild. See [esbuild docs](https://esbuild.github.io/content-types/#javascript) for more details.
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    target: 'es2015'
+  }
+})
+```
+
+In this example, the build target is set to `es2015`, which ensures compatibility with older browsers that support ES2015.
+
 ## build.modulePreload
 
 - **Type:** `boolean | { polyfill?: boolean, resolveDependencies?: ResolveModulePreloadDependenciesFn }`
@@ -66,6 +81,26 @@ modulePreload: {
 
 The resolved dependency paths can be further modified using [`experimental.renderBuiltUrl`](../guide/build.md#advanced-base-options).
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    modulePreload: {
+      polyfill: false,
+      resolveDependencies: (filename, deps, { hostId, hostType }) => {
+        return deps.filter(dep => dep.includes('important'))
+      }
+    }
+  }
+})
+```
+
+In this example, the polyfill is disabled, and the `resolveDependencies` function filters the dependencies to only include those that contain the string 'important'.
+
 ## build.polyfillModulePreload
 
 - **Type:** `boolean`
@@ -81,12 +116,42 @@ Whether to automatically inject a [module preload polyfill](https://guybedford.c
 
 Specify the output directory (relative to [project root](/guide/#index-html-and-project-root)).
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    outDir: 'build'
+  }
+})
+```
+
+In this example, the output directory is set to `build` instead of the default `dist`.
+
 ## build.assetsDir
 
 - **Type:** `string`
 - **Default:** `assets`
 
 Specify the directory to nest generated assets under (relative to `build.outDir`. This is not used in [Library Mode](/guide/build#library-mode)).
+
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    assetsDir: 'static'
+  }
+})
+```
+
+In this example, the generated assets will be nested under the `static` directory instead of the default `assets` directory.
 
 ## build.assetsInlineLimit
 
@@ -103,6 +168,21 @@ Git LFS placeholders are automatically excluded from inlining because they do no
 If you specify `build.lib`, `build.assetsInlineLimit` will be ignored and assets will always be inlined, regardless of file size or being a Git LFS placeholder.
 :::
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    assetsInlineLimit: 8192
+  }
+})
+```
+
+In this example, the assets inline limit is set to 8192 bytes (8 KiB) instead of the default 4096 bytes (4 KiB).
+
 ## build.cssCodeSplit
 
 - **Type:** `boolean`
@@ -116,6 +196,21 @@ If disabled, all CSS in the entire project will be extracted into a single CSS f
 If you specify `build.lib`, `build.cssCodeSplit` will be `false` as default.
 :::
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    cssCodeSplit: false
+  }
+})
+```
+
+In this example, CSS code splitting is disabled, and all CSS in the entire project will be extracted into a single CSS file.
+
 ## build.cssTarget
 
 - **Type:** `string | string[]`
@@ -127,12 +222,42 @@ It should only be used when you are targeting a non-mainstream browser.
 One example is Android WeChat WebView, which supports most modern JavaScript features but not the [`#RGBA` hexadecimal color notation in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb_colors).
 In this case, you need to set `build.cssTarget` to `chrome61` to prevent vite from transform `rgba()` colors into `#RGBA` hexadecimal notations.
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    cssTarget: 'chrome61'
+  }
+})
+```
+
+In this example, the CSS target is set to `chrome61` to ensure compatibility with Android WeChat WebView.
+
 ## build.cssMinify
 
 - **Type:** `boolean | 'esbuild' | 'lightningcss'`
 - **Default:** the same as [`build.minify`](#build-minify) for client, `'esbuild'` for SSR
 
 This option allows users to override CSS minification specifically instead of defaulting to `build.minify`, so you can configure minification for JS and CSS separately. Vite uses `esbuild` by default to minify CSS. Set the option to `'lightningcss'` to use [Lightning CSS](https://lightningcss.dev/minification.html) instead. If selected, it can be configured using [`css.lightningcss`](./shared-options.md#css-lightningcss).
+
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    cssMinify: 'lightningcss'
+  }
+})
+```
+
+In this example, Lightning CSS is used for CSS minification instead of the default esbuild.
 
 ## build.sourcemap
 
@@ -141,11 +266,44 @@ This option allows users to override CSS minification specifically instead of de
 
 Generate production source maps. If `true`, a separate sourcemap file will be created. If `'inline'`, the sourcemap will be appended to the resulting output file as a data URI. `'hidden'` works like `true` except that the corresponding sourcemap comments in the bundled files are suppressed.
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    sourcemap: true
+  }
+})
+```
+
+In this example, production source maps are generated as separate files.
+
 ## build.rollupOptions
 
 - **Type:** [`RollupOptions`](https://rollupjs.org/configuration-options/)
 
 Directly customize the underlying Rollup bundle. This is the same as options that can be exported from a Rollup config file and will be merged with Vite's internal Rollup options. See [Rollup options docs](https://rollupjs.org/configuration-options/) for more details.
+
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+import { terser } from 'rollup-plugin-terser'
+
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      plugins: [terser()]
+    }
+  }
+})
+```
+
+In this example, the Rollup bundle is customized to include the Terser plugin for minification.
 
 ## build.commonjsOptions
 
@@ -153,12 +311,46 @@ Directly customize the underlying Rollup bundle. This is the same as options tha
 
 Options to pass on to [@rollup/plugin-commonjs](https://github.com/rollup/plugins/tree/master/packages/commonjs).
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    commonjsOptions: {
+      include: /node_modules/
+    }
+  }
+})
+```
+
+In this example, the CommonJS options are customized to include all modules in the `node_modules` directory.
+
 ## build.dynamicImportVarsOptions
 
 - **Type:** [`RollupDynamicImportVarsOptions`](https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars#options)
 - **Related:** [Dynamic Import](/guide/features#dynamic-import)
 
 Options to pass on to [@rollup/plugin-dynamic-import-vars](https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars).
+
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    dynamicImportVarsOptions: {
+      include: 'src/**/*.js'
+    }
+  }
+})
+```
+
+In this example, the dynamic import variables options are customized to include all JavaScript files in the `src` directory.
 
 ## build.lib
 
@@ -185,6 +377,26 @@ export default defineConfig({
 })
 ```
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    lib: {
+      entry: 'src/index.js',
+      name: 'MyLibrary',
+      formats: ['es', 'umd'],
+      fileName: (format) => `my-library.${format}.js`
+    }
+  }
+})
+```
+
+In this example, the library is built with the entry file `src/index.js`, the global variable name `MyLibrary`, and the output formats `es` and `umd`. The file name is customized to include the format.
+
 ## build.manifest
 
 - **Type:** `boolean | string`
@@ -192,6 +404,21 @@ export default defineConfig({
 - **Related:** [Backend Integration](/guide/backend-integration)
 
 When set to `true`, the build will also generate a `.vite/manifest.json` file that contains a mapping of non-hashed asset filenames to their hashed versions, which can then be used by a server framework to render the correct asset links. When the value is a string, it will be used as the manifest file name.
+
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    manifest: true
+  }
+})
+```
+
+In this example, a `.vite/manifest.json` file is generated during the build.
 
 ## build.ssrManifest
 
@@ -201,6 +428,21 @@ When set to `true`, the build will also generate a `.vite/manifest.json` file th
 
 When set to `true`, the build will also generate an SSR manifest for determining style links and asset preload directives in production. When the value is a string, it will be used as the manifest file name.
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    ssrManifest: true
+  }
+})
+```
+
+In this example, an SSR manifest is generated during the build.
+
 ## build.ssr
 
 - **Type:** `boolean | string`
@@ -209,6 +451,21 @@ When set to `true`, the build will also generate an SSR manifest for determining
 
 Produce SSR-oriented build. The value can be a string to directly specify the SSR entry, or `true`, which requires specifying the SSR entry via `rollupOptions.input`.
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    ssr: 'src/entry-server.js'
+  }
+})
+```
+
+In this example, the SSR entry is specified as `src/entry-server.js`.
+
 ## build.emitAssets
 
 - **Type:** `boolean`
@@ -216,12 +473,42 @@ Produce SSR-oriented build. The value can be a string to directly specify the SS
 
 During non-client builds, static assets aren't emitted as it is assumed they would be emitted as part of the client build. This option allows frameworks to force emitting them in other environments build. It is responsibility of the framework to merge the assets with a post build step.
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    emitAssets: true
+  }
+})
+```
+
+In this example, static assets are emitted during non-client builds.
+
 ## build.ssrEmitAssets
 
 - **Type:** `boolean`
 - **Default:** `false`
 
 During the SSR build, static assets aren't emitted as it is assumed they would be emitted as part of the client build. This option allows frameworks to force emitting them in both the client and SSR build. It is responsibility of the framework to merge the assets with a post build step. This option will be replaced by `build.emitAssets` once Environment API is stable.
+
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    ssrEmitAssets: true
+  }
+})
+```
+
+In this example, static assets are emitted during both the client and SSR builds.
 
 ## build.minify
 
@@ -238,6 +525,21 @@ Terser must be installed when it is set to `'terser'`.
 npm add -D terser
 ```
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    minify: 'terser'
+  }
+})
+```
+
+In this example, Terser is used for minification instead of the default esbuild.
+
 ## build.terserOptions
 
 - **Type:** `TerserOptions`
@@ -246,12 +548,47 @@ Additional [minify options](https://terser.org/docs/api-reference#minify-options
 
 In addition, you can also pass a `maxWorkers: number` option to specify the max number of workers to spawn. Defaults to the number of CPUs minus 1.
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+import terser from 'terser'
+
+export default defineConfig({
+  build: {
+    terserOptions: {
+      compress: {
+        drop_console: true
+      }
+    }
+  }
+})
+```
+
+In this example, the Terser options are customized to drop console statements during minification.
+
 ## build.write
 
 - **Type:** `boolean`
 - **Default:** `true`
 
 Set to `false` to disable writing the bundle to disk. This is mostly used in [programmatic `build()` calls](/guide/api-javascript#build) where further post processing of the bundle is needed before writing to disk.
+
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    write: false
+  }
+})
+```
+
+In this example, the bundle is not written to disk.
 
 ## build.emptyOutDir
 
@@ -260,12 +597,42 @@ Set to `false` to disable writing the bundle to disk. This is mostly used in [pr
 
 By default, Vite will empty the `outDir` on build if it is inside project root. It will emit a warning if `outDir` is outside of root to avoid accidentally removing important files. You can explicitly set this option to suppress the warning. This is also available via command line as `--emptyOutDir`.
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    emptyOutDir: false
+  }
+})
+```
+
+In this example, the `outDir` is not emptied on build.
+
 ## build.copyPublicDir
 
 - **Type:** `boolean`
 - **Default:** `true`
 
 By default, Vite will copy files from the `publicDir` into the `outDir` on build. Set to `false` to disable this.
+
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    copyPublicDir: false
+  }
+})
+```
+
+In this example, files from the `publicDir` are not copied into the `outDir` on build.
 
 ## build.reportCompressedSize
 
@@ -274,6 +641,21 @@ By default, Vite will copy files from the `publicDir` into the `outDir` on build
 
 Enable/disable gzip-compressed size reporting. Compressing large output files can be slow, so disabling this may increase build performance for large projects.
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    reportCompressedSize: false
+  }
+})
+```
+
+In this example, gzip-compressed size reporting is disabled.
+
 ## build.chunkSizeWarningLimit
 
 - **Type:** `number`
@@ -281,12 +663,42 @@ Enable/disable gzip-compressed size reporting. Compressing large output files ca
 
 Limit for chunk size warnings (in kB). It is compared against the uncompressed chunk size as the [JavaScript size itself is related to the execution time](https://v8.dev/blog/cost-of-javascript-2019).
 
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    chunkSizeWarningLimit: 1000
+  }
+})
+```
+
+In this example, the chunk size warning limit is set to 1000 kB instead of the default 500 kB.
+
 ## build.watch
 
 - **Type:** [`WatcherOptions`](https://rollupjs.org/configuration-options/#watch)`| null`
 - **Default:** `null`
 
 Set to `{}` to enable rollup watcher. This is mostly used in cases that involve build-only plugins or integrations processes.
+
+### Example
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    watch: {}
+  }
+})
+```
+
+In this example, the Rollup watcher is enabled.
 
 ::: warning Using Vite on Windows Subsystem for Linux (WSL) 2
 

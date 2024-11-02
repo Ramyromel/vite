@@ -129,6 +129,35 @@ jobs:
       - name: Test build
         run: pnpm run test-build
 
+      - name: Run security checks
+        run: pnpm audit
+
+      - name: Check for outdated dependencies
+        run: pnpm outdated
+
+      - name: Run performance tests
+        run: pnpm run test-performance
+
+      - name: Generate code coverage report
+        run: pnpm run coverage
+
+      - name: Upload code coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Run accessibility tests
+        run: pnpm run test-accessibility
+
+      - name: Run end-to-end tests
+        run: pnpm run test-e2e
+
+      - name: Check code quality
+        run: pnpm run check-code-quality
+
+      - name: Deploy to staging environment
+        run: pnpm run deploy-staging
+
   test-passed:
     if: (!cancelled() && !failure())
     needs: test

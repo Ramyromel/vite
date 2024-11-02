@@ -309,3 +309,35 @@ If you have publish access, the steps below explain how to cut a release for a p
 ## Docs Translation Contribution
 
 To add a new language to the Vite docs, see [`vite-docs-template`](https://github.com/tony19/vite-docs-template/blob/main/.github/CONTRIBUTING.md).
+
+## Getting Started with Contributing
+
+To help new contributors get started with the project, here are some steps and guidelines:
+
+1. **Familiarize Yourself with the Project**: Read the [Project Philosophy](https://vite.dev/guide/philosophy) and explore the documentation to understand the goals and features of Vite.
+
+2. **Set Up Your Development Environment**: Follow the instructions in the [Repo Setup](#repo-setup) section to set up your local development environment.
+
+3. **Find an Issue to Work On**: Check the [issue tracker](https://github.com/vitejs/vite/issues) for issues labeled with `good first issue` or `help wanted`. These issues are suitable for new contributors and provide a good starting point.
+
+4. **Discuss Your Ideas**: If you have an idea for a new feature or improvement, open a discussion in the [GitHub Discussions](https://github.com/vitejs/vite/discussions) or join the [Discord Chat](https://chat.vite.dev) to discuss it with the community and maintainers.
+
+5. **Work on Your Contribution**: Once you have selected an issue or decided on a feature, start working on your contribution. Follow the [Pull Request Guidelines](#pull-request-guidelines) to ensure your changes are well-documented and tested.
+
+6. **Submit a Pull Request**: When your contribution is ready, submit a pull request (PR) following the guidelines in the [Pull Request Guidelines](#pull-request-guidelines) section. Make sure to provide a clear description of your changes and reference any related issues.
+
+7. **Address Feedback**: Be prepared to receive feedback from the maintainers and the community. Address any comments or suggestions to improve your contribution.
+
+8. **Celebrate Your Contribution**: Once your pull request is merged, celebrate your contribution to the Vite project! Your efforts help make Vite better for everyone.
+
+## Additional Resources
+
+Here are some additional resources to help you get started with contributing to Vite:
+
+- [Vite Documentation](https://vite.dev/guide/)
+- [Vite GitHub Repository](https://github.com/vitejs/vite)
+- [Vite Discord Chat](https://chat.vite.dev)
+- [GitHub Discussions](https://github.com/vitejs/vite/discussions)
+- [Codeflow Documentation](https://developer.stackblitz.com/codeflow/what-is-codeflow)
+
+Thank you for your interest in contributing to Vite! We look forward to your contributions.

@@ -218,3 +218,122 @@ Then go to your Vite based project and run `pnpm link --global vite` (or the pac
 ## Community
 
 If you have questions or need help, reach out to the community at [Discord](https://chat.vite.dev) and [GitHub Discussions](https://github.com/vitejs/vite/discussions).
+
+## Examples and Use Cases
+
+Here are some examples and use cases to demonstrate how to use Vite in different scenarios:
+
+### Example 1: Using Vite with Vue.js
+
+1. Create a new Vite project with the Vue template:
+
+```bash
+$ npm create vite@latest my-vue-app -- --template vue
+```
+
+2. Navigate to the project directory and install dependencies:
+
+```bash
+$ cd my-vue-app
+$ npm install
+```
+
+3. Start the development server:
+
+```bash
+$ npm run dev
+```
+
+4. Open `src/App.vue` and make changes to see the hot module replacement in action.
+
+### Example 2: Using Vite with React
+
+1. Create a new Vite project with the React template:
+
+```bash
+$ npm create vite@latest my-react-app -- --template react
+```
+
+2. Navigate to the project directory and install dependencies:
+
+```bash
+$ cd my-react-app
+$ npm install
+```
+
+3. Start the development server:
+
+```bash
+$ npm run dev
+```
+
+4. Open `src/App.jsx` and make changes to see the hot module replacement in action.
+
+### Example 3: Using Vite with TypeScript
+
+1. Create a new Vite project with the TypeScript template:
+
+```bash
+$ npm create vite@latest my-ts-app -- --template vanilla-ts
+```
+
+2. Navigate to the project directory and install dependencies:
+
+```bash
+$ cd my-ts-app
+$ npm install
+```
+
+3. Start the development server:
+
+```bash
+$ npm run dev
+```
+
+4. Open `src/main.ts` and make changes to see the hot module replacement in action.
+
+### Example 4: Using Vite with Svelte
+
+1. Create a new Vite project with the Svelte template:
+
+```bash
+$ npm create vite@latest my-svelte-app -- --template svelte
+```
+
+2. Navigate to the project directory and install dependencies:
+
+```bash
+$ cd my-svelte-app
+$ npm install
+```
+
+3. Start the development server:
+
+```bash
+$ npm run dev
+```
+
+4. Open `src/App.svelte` and make changes to see the hot module replacement in action.
+
+### Example 5: Using Vite with Preact
+
+1. Create a new Vite project with the Preact template:
+
+```bash
+$ npm create vite@latest my-preact-app -- --template preact
+```
+
+2. Navigate to the project directory and install dependencies:
+
+```bash
+$ cd my-preact-app
+$ npm install
+```
+
+3. Start the development server:
+
+```bash
+$ npm run dev
+```
+
+4. Open `src/App.jsx` and make changes to see the hot module replacement in action.
