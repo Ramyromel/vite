@@ -29,6 +29,22 @@ body:
       description: Please provide any reproduction steps that may need to be described. E.g. if it happens only when running the dev or build script make sure it's clear which one to use.
       placeholder: Run `npm install` followed by `npm run dev`
   - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: Describe what you expected to happen.
+      placeholder: The expected behavior is ...
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: Describe what actually happened.
+      placeholder: The actual behavior is ...
+    validations:
+      required: true
+  - type: textarea
     id: system-info
     attributes:
       label: System Info
@@ -68,6 +84,12 @@ body:
         ```
         </details>
         ````
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context or Screenshots
+      description: Provide any additional context or screenshots that may help in understanding the issue.
+      placeholder: Additional context or screenshots
   - type: checkboxes
     id: checkboxes
     attributes:

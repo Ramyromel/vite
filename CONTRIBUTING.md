@@ -340,4 +340,74 @@ Here are some additional resources to help you get started with contributing to 
 - [GitHub Discussions](https://github.com/vitejs/vite/discussions)
 - [Codeflow Documentation](https://developer.stackblitz.com/codeflow/what-is-codeflow)
 
-Thank you for your interest in contributing to Vite! We look forward to your contributions.
+## Running Tests and Building the Project Locally
+
+To run tests and build the project locally, follow these steps:
+
+1. **Run Unit Tests**: Use the following command to run unit tests:
+
+```bash
+pnpm run test-unit
+```
+
+2. **Run Integration Tests**: Use the following command to run integration tests:
+
+```bash
+pnpm run test
+```
+
+3. **Build the Project**: Use the following command to build the project:
+
+```bash
+pnpm run build
+```
+
+4. **Run the Development Server**: Use the following command to start the development server:
+
+```bash
+pnpm run dev
+```
+
+## Common Tasks and Workflows for Contributors
+
+Here are some common tasks and workflows for contributors:
+
+1. **Creating a New Branch**: Before starting work on a new feature or bug fix, create a new branch:
+
+```bash
+git checkout -b my-feature-branch
+```
+
+2. **Committing Changes**: Use meaningful commit messages following the [commit message convention](./.github/commit-convention.md):
+
+```bash
+git commit -m "feat: add new feature"
+```
+
+3. **Pushing Changes**: Push your changes to your forked repository:
+
+```bash
+git push origin my-feature-branch
+```
+
+4. **Opening a Pull Request**: Open a pull request from your forked repository to the main Vite repository. Provide a clear description of your changes and reference any related issues.
+
+5. **Running Linter and Formatter**: Ensure that your code follows the project's coding standards by running the linter and formatter:
+
+```bash
+pnpm run lint
+pnpm run format
+```
+
+6. **Updating Dependencies**: To update dependencies in `package.json`, follow these steps:
+
+- Open the `package.json` file in the root directory of the repository.
+- Review the current dependencies listed under the `dependencies` and `devDependencies` sections.
+- Identify the dependencies that need to be updated. You can check for the latest versions of the dependencies on the npm registry or use a tool like `npm-check-updates`.
+- Update the version numbers of the identified dependencies to the latest versions.
+- Save the changes to the `package.json` file.
+- Run `pnpm install` to install the updated dependencies and update the `pnpm-lock.yaml` file.
+- Verify that the project works correctly with the updated dependencies by running the tests and building the project.
+- Commit the changes to the `package.json` and `pnpm-lock.yaml` files.
+
+Additionally, you can use the `renovate.json5` configuration file in the `.github` directory to automate the process of updating dependencies. This file contains rules and settings for the Renovate bot, which can automatically create pull requests to update dependencies based on the specified configuration.

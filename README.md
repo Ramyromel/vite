@@ -34,6 +34,17 @@ In addition, Vite is highly extensible via its [Plugin API](https://vite.dev/gui
 
 [Read the Docs to Learn More](https://vite.dev).
 
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Examples and Use Cases](#examples-and-use-cases)
+- [Packages](#packages)
+- [Contributing](#contributing)
+- [License](#license)
+- [Sponsors](#sponsors)
+
 ## Features
 
 Vite offers a range of features that make it a powerful and flexible tool for modern web development:
@@ -49,6 +60,13 @@ Vite offers a range of features that make it a powerful and flexible tool for mo
 - **Universal Plugin Interface**: Vite's plugin system is built on top of Rollup's plugin interface, making it easy to reuse existing Rollup plugins. It also provides additional hooks and features specific to Vite.
 
 - **Fully Typed APIs**: Vite's APIs are fully typed, providing a great developer experience when using TypeScript. This includes the configuration file, plugin API, and more.
+
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- **Node.js**: Vite requires [Node.js](https://nodejs.org/en/) version 18+ or 20+. You can download it from the official Node.js website.
+- **Package Manager**: You can use npm, Yarn, pnpm, or Bun as your package manager. Ensure you have one of these installed.
 
 ## Getting Started
 
@@ -219,7 +237,7 @@ $ npm run dev
 | [@vitejs/plugin-legacy](packages/plugin-legacy) | [![plugin-legacy version](https://img.shields.io/npm/v/@vitejs/plugin-legacy.svg?label=%20)](packages/plugin-legacy/CHANGELOG.md) |
 | [create-vite](packages/create-vite)             | [![create-vite version](https://img.shields.io/npm/v/create-vite.svg?label=%20)](packages/create-vite/CHANGELOG.md)               |
 
-## Contribution
+## Contributing
 
 See [Contributing Guide](CONTRIBUTING.md).
 
