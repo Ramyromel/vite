@@ -1,0 +1,19 @@
+import { describe, it, expect } from 'vitest';
+import { myFunction } from './myModule';
+
+describe('myFunction', () => {
+  it('should return the correct value', () => {
+    const result = myFunction(2, 3);
+    expect(result).toBe(5);
+  });
+
+  it('should handle negative numbers', () => {
+    const result = myFunction(-2, -3);
+    expect(result).toBe(-5);
+  });
+
+  it('should handle zero', () => {
+    const result = myFunction(0, 0);
+    expect(result).toBe(0);
+  });
+});
