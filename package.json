@@ -67,7 +67,7 @@
     "picocolors": "^1.1.1",
     "playwright-chromium": "^1.48.2",
     "premove": "^4.0.0",
-    "prettier": "3.3.3",
+    "prettier": "3.6.2",
     "rollup": "^4.23.0",
     "rollup-plugin-esbuild": "^6.1.1",
     "simple-git-hooks": "^2.11.1",
